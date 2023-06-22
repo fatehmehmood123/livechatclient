@@ -1,18 +1,16 @@
 const socket = io("https://fateh-live-chat.glitch.me");
 var userName = prompt("what is your name?");
 appendMessage("You Joined")
-var onlineCount = 1;
+
 socket.on("chat-message", (message,userName)=>{
    appendMessage(userName+" : "+message);
 });
 socket.emit("user-added",userName);
-socket.on('user-joined',userName=>{
-    onlineCount = onlineCount+1;
+socket.on('user-joined',(userName,onlineCount)=>{
     updateOnlineCount(onlineCount);
     appendMessage(`${userName} Joined`)
 });
-socket.on("disconnected",userName=>{
-    onlineCount = onlineCount-1;
+socket.on("disconnected",(userName,onlineCount)=>{
     updateOnlineCount(onlineCount);
     appendMessage(userName+" left");
 })
